@@ -1,0 +1,22 @@
+# Prueba válida: funciones integradas gritar, poder, aNumero, aTexto, agregar.
+# gritar con varios argumentos
+gritar("Nivel de poder:", 9000 + 1);
+
+# poder: longitud de cadena o lista
+gritar(poder("Dattebayo"));     # 9
+ninja lista = [10, 20, 30];
+gritar(poder(lista));           # 3
+
+# aNumero: convierte a número
+gritar(aNumero("42") + 1);      # 43
+gritar(aNumero(hai));            # 1
+gritar(aNumero(iie));            # 0
+
+# aTexto: convierte cualquier valor a texto
+gritar("Valor: " + aTexto(nada));       # Valor: nada
+gritar("Lista: " + aTexto(lista));      # Lista: [10, 20, 30]
+
+# agregar: añade al final de una lista
+agregar(lista, 40);
+gritar(lista[3]);               # 40
+gritar(poder(lista));           # 4

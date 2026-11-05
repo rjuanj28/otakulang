@@ -1,0 +1,26 @@
+# 05-funciones.otaku — Demuestra jutsu: parámetros, kaeri y funciones sin retorno.
+
+# Función con dos parámetros y kaeri.
+jutsu suma(a, b) {
+  kaeri a + b;
+}
+
+# Función que usa condicionales por dentro.
+jutsu mayorDeEdad(edad) {
+  nani (edad >= 18) {
+    kaeri "adulto";
+  } baka {
+    kaeri "menor";
+  }
+}
+
+# Función sin kaeri: devuelve nada. Solo produce un efecto (gritar).
+jutsu saludar(nombre) {
+  gritar("Konnichiwa,", nombre + "!");
+}
+
+gritar(suma(2, 3));              # 5
+gritar(mayorDeEdad(20));         # adulto
+gritar(mayorDeEdad(15));         # menor
+saludar("Naruto");               # Konnichiwa, Naruto!
+gritar(saludar("Sakura"));       # nada: saludar no devuelve nada

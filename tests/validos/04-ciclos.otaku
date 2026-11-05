@@ -1,0 +1,19 @@
+# Prueba válida: ciclos kamehameha (while) y entrenar (for).
+# kamehameha: mientras la condición sea verdad
+ninja energia = 3;
+kamehameha (energia > 0) {
+  gritar("Cargando kamehameha:", energia);
+  energia = energia - 1;
+}
+
+# entrenar: for clásico (inicial; condición; incremento)
+entrenar (ninja i = 1; i <= 3; i = i + 1) {
+  gritar("Serie", i);
+}
+
+# Suma del 1 al 10 con entrenar
+ninja total = 0;
+entrenar (ninja n = 1; n <= 10; n = n + 1) {
+  total = total + n;
+}
+gritar("Suma 1 a 10:", total);

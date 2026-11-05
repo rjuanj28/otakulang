@@ -1,0 +1,70 @@
+# 11-completo.otaku — El Torneo del Poder.
+# Programa largo que combina todo: variables, funciones, recursión, listas,
+# condicionales, ciclos, ámbitos, closures y funciones integradas.
+
+# ---------- Datos de los guerreros ----------
+
+ninja nombres = ["Goku", "Vegeta", "Naruto", "Sasuke"];
+ninja poderes = [9001, 8500, 8000, 7800];
+
+# ---------- Funciones ----------
+
+# Recursión: el poder de un guerrero se multiplica al fusionarse k veces.
+jutsu fusion(poder, veces) {
+  nani (veces == 0) {
+    kaeri poder;
+  }
+  kaeri fusion(poder * 2, veces - 1);
+}
+
+# Recorre una lista y devuelve el índice del mayor poder.
+jutsu indiceDelMasFuerte(lista) {
+  ninja mejor = 0;
+  entrenar (ninja i = 1; i < poder(lista); i = i + 1) {
+    nani (lista[i] > lista[mejor]) {
+      mejor = i;
+    }
+  }
+  kaeri mejor;
+}
+
+# Closure: un entrenador que recuerda cuántas sesiones ha dado.
+jutsu crearEntrenador() {
+  ninja sesiones = 0;
+  jutsu entrenarGuerrero(poder) {
+    sesiones = sesiones + 1;
+    kaeri poder + sesiones * 100;
+  }
+  kaeri entrenarGuerrero;
+}
+
+# ---------- El torneo ----------
+
+gritar("=== TORNEO DEL PODER ===");
+gritar("Participantes:", poder(nombres));
+
+# Ronda 1: cada guerrero entrena con el maestro (closure).
+ninja maestro = crearEntrenador();
+entrenar (ninja i = 0; i < poder(nombres); i = i + 1) {
+  poderes[i] = maestro(poderes[i]);
+  gritar(nombres[i], "entrenó. Nuevo poder:", poderes[i]);
+}
+
+# Ronda 2: Goku y Vegeta se fusionan (recursión).
+poderes[0] = fusion(poderes[0], 2);
+gritar("¡Fusión! El poder de", nombres[0], "ahora es", poderes[0]);
+
+# Ronda 3: Naruto y Sasuke también se fusionan.
+poderes[2] = fusion(poderes[2], 2);
+gritar("¡Fusión! El poder de", nombres[2], "ahora es", poderes[2]);
+
+# Final: ¿quién gana?
+ninja campeon = indiceDelMasFuerte(poderes);
+gritar("El campeón del torneo es:", nombres[campeon], "con", poderes[campeon], "de poder");
+
+# Bonus: el campeón grita su frase.
+ninja frase = "¡Soy el número uno, dattebayo!";
+nani (campeon == 0) {
+  frase = "¡Kamehameha! ¡Soy el más fuerte!";
+}
+gritar(nombres[campeon] + ":", frase);

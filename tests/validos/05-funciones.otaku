@@ -1,0 +1,31 @@
+# Prueba válida: funciones con parámetros, retorno y recursión.
+jutsu sumar(a, b) {
+  kaeri a + b;
+}
+gritar(sumar(2, 3));            # 5
+
+# Función sin kaeri: devuelve nada
+jutsu saludar(nombre) {
+  gritar("Konnichiwa,", nombre);
+}
+saludar("Naruto");
+gritar(saludar("Sasuke"));      # nada
+
+# Recursión: factorial
+jutsu factorial(n) {
+  nani (n <= 1) { kaeri 1; }
+  kaeri n * factorial(n - 1);
+}
+gritar(factorial(5));           # 120
+
+# Recursión: fibonacci
+jutsu fib(n) {
+  nani (n < 2) { kaeri n; }
+  kaeri fib(n - 1) + fib(n - 2);
+}
+gritar(fib(10));                # 55
+
+# Función que llama a otra función
+jutsu doble(x) { kaeri x * 2; }
+jutsu cuadruple(x) { kaeri doble(doble(x)); }
+gritar(cuadruple(5));           # 20

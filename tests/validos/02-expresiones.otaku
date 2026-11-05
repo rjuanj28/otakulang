@@ -1,0 +1,14 @@
+# Prueba válida: precedencia, asociatividad y operadores.
+gritar(2 + 3 * 4);          # 14: * antes que +
+gritar((2 + 3) * 4);        # 20: paréntesis primero
+gritar(10 - 4 - 3);         # 3: asociatividad izquierda
+gritar(100 / 10 / 2);       # 5: asociatividad izquierda
+gritar(7 % 3);              # 1: módulo
+gritar(-5 + 2);             # -3: unario
+gritar(!iie);               # hai: negación lógica
+
+gritar("Ki: " + 9000);      # concatenación
+gritar(1 < 2 && 2 < 3);     # hai
+gritar(iie || "carga");     # cortocircuito: "carga"
+gritar(5 == 5, 5 != 5);     # hai iie
+gritar("a" < "b");          # hai: comparación de cadenas

@@ -1,0 +1,19 @@
+# 02-expresiones.otaku — Demuestra la precedencia, asociatividad y reglas de tipos.
+# * y / y % tienen más precedencia que + y -; los binarios asocian a la izquierda.
+
+gritar(1 + 2 * 3);            # 7: primero 2*3
+gritar((1 + 2) * 3);          # 9: los paréntesis mandan
+gritar(10 - 4 - 3);           # 3: (10-4)-3, asociatividad izquierda
+gritar(7 % 3);                 # 1: módulo
+gritar(2.5 * 2);               # 5: decimales
+
+# + concatena si algún lado es cadena.
+gritar("Nivel " + 9000 + 1);  # Nivel 90001
+
+# Comparaciones y lógica.
+gritar(5 == "5");             # iie: == no convierte tipos
+gritar(3 <= 3);                # hai
+gritar("abc" < "abd");         # hai: cadenas se comparan alfabéticamente
+gritar(hai && iie);            # iie
+gritar(hai || iie);            # hai
+gritar(!nada);                 # hai: nada es falso

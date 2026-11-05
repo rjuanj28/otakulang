@@ -1,0 +1,3 @@
+# Error de ejecución: redeclaración en el mismo ámbito.
+ninja x = 1;
+ninja x = 2;

@@ -1,0 +1,22 @@
+# 10-closures.otaku — Demuestra closures: funciones que recuerdan su entorno.
+# Una función devuelta por otra función conserva las variables de donde nació.
+
+jutsu crearContador() {
+  ninja cuenta = 0;              # privada: vive solo dentro del closure
+
+  jutsu incrementar() {
+    cuenta = cuenta + 1;         # modifica la variable recordada
+    kaeri cuenta;
+  }
+
+  kaeri incrementar;             # devuelve la función (las funciones son valores)
+}
+
+ninja victorias = crearContador();
+ninja derrotas = crearContador();
+
+# Cada closure tiene SU PROPIA copia de "cuenta".
+gritar("Victoria número:", victorias());   # 1
+gritar("Victoria número:", victorias());   # 2
+gritar("Derrota número:", derrotas());     # 1 (contador independiente)
+gritar("Victoria número:", victorias());   # 3

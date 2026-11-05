@@ -1,0 +1,2 @@
+# Error léxico: cadena sin cerrar.
+gritar("Kamehameha);

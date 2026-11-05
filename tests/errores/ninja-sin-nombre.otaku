@@ -1,0 +1,2 @@
+# Error sintáctico: ninja sin nombre de variable.
+ninja = 5;

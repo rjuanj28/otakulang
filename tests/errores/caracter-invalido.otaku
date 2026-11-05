@@ -1,0 +1,3 @@
+# Error léxico: carácter no válido.
+ninja x = 5;
+gritar(x @ 2);

@@ -1,0 +1,15 @@
+# 01-variables.otaku — Demuestra la declaración y asignación de variables.
+# ninja declara, = asigna, hai/iie son booleanos y nada es null.
+
+ninja nombre = "Goku";        # cadena
+ninja poder = 9000 + 1;       # número (se evalúa la expresión)
+ninja transformado = hai;     # booleano
+ninja rival;                  # sin valor: vale nada
+
+gritar(nombre, "tiene poder", poder);
+gritar("Transformado:", transformado);
+gritar("Rival:", rival);
+
+# La asignación cambia el valor de una variable existente.
+poder = poder * 2;
+gritar("Después de entrenar:", poder);

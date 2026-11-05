@@ -1,0 +1,25 @@
+# Prueba válida: ámbitos local y global.
+ninja aldea = "Konoha";
+
+# Una variable local con el mismo nombre no afecta la global
+jutsu cambiarAldea() {
+  ninja aldea = "Suna";
+  gritar("Dentro:", aldea);
+}
+cambiarAldea();
+gritar("Fuera:", aldea);
+
+# Sin ninja: la función SÍ modifica la global
+jutsu atacarAldea() {
+  aldea = "Destruída";
+}
+atacarAldea();
+gritar("Global modificada:", aldea);
+
+# Los bloques también crean ámbito
+ninja nivel = 1;
+nani (hai) {
+  ninja nivel = 99;
+  gritar("Nivel en el bloque:", nivel);
+}
+gritar("Nivel global:", nivel);

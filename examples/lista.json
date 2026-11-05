@@ -1,0 +1,13 @@
+[
+  { "nombre": "01 — Variables", "archivo": "01-variables.otaku" },
+  { "nombre": "02 — Expresiones y precedencia", "archivo": "02-expresiones.otaku" },
+  { "nombre": "03 — Condicionales nani/baka", "archivo": "03-condicionales.otaku" },
+  { "nombre": "04 — Ciclos kamehameha y entrenar", "archivo": "04-ciclos.otaku" },
+  { "nombre": "05 — Funciones jutsu", "archivo": "05-funciones.otaku" },
+  { "nombre": "06 — Recursión", "archivo": "06-recursion.otaku" },
+  { "nombre": "07 — Ámbitos", "archivo": "07-ambitos.otaku" },
+  { "nombre": "08 — Listas", "archivo": "08-listas.otaku" },
+  { "nombre": "09 — Funciones integradas", "archivo": "09-integradas.otaku" },
+  { "nombre": "10 — Closures", "archivo": "10-closures.otaku" },
+  { "nombre": "11 — Torneo del Poder (completo)", "archivo": "11-completo.otaku" }
+]

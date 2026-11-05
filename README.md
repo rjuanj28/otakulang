@@ -1,163 +1,181 @@
-# CatCompiler
+# OtakuLang 🍥
 
-CatCompiler es un proyecto educativo en Go para analizar y ejecutar un lenguaje pequeño. Incluye un analizador léxico (*lexer*), un analizador sintáctico (*parser*), objetos de ejecución y un evaluador. El REPL permite ver tokens, ver el árbol de sintaxis abstracta (AST) o ejecutar código.
+Un lenguaje de programación con temática anime/otaku, implementado como un intérprete en JavaScript puro (Node.js, **sin dependencias**). Sus palabras clave vienen del japonés y de animes famosos como *Naruto* y *Dragon Ball*.
+
+```otaku
+jutsu factorial(n) {
+  nani (n <= 1) { kaeri 1; }
+  kaeri n * factorial(n - 1);
+}
+gritar("5! =", factorial(5));   # 5! = 120
+```
+
+## Integrantes
+
+- Juan Jose Restrepo Davila
+- Valeria Gomez
+- Isaac David Chagüi Galeano
 
 ## Requisitos
 
-- Go 1.26.3 o una versión compatible con la indicada en `go.mod`.
-- No requiere dependencias externas.
+- Node.js 18 o superior (no hay que instalar nada más, el proyecto no tiene dependencias).
 
-## Inicio rápido
+## Cómo usarlo
 
-Desde la raíz del proyecto:
-
-```bash
-go run .
-```
-
-Al iniciar, elige `1` para ver los tokens, `2` para ver el AST o `3` para ejecutar código. Luego escribe una línea y presiona Enter. En modo evaluador, las variables persisten entre líneas de la misma sesión.
-
-Por ejemplo, en modo parser:
-
-```text
-Opción: 2
-parser>> let x = 1 + 2 * 3;
-Programa:
-  let x = (1 + (2 * 3));
-AST:
-Program
-└── LetStatement x
-    └── Valor: InfixExpression +
-        ├── Izquierda: IntegerLiteral 1
-        └── Derecha: InfixExpression *
-            ├── Izquierda: IntegerLiteral 2
-            └── Derecha: IntegerLiteral 3
-```
-
-En modo lexer, la misma línea muestra cada token con su tipo y literal. Los errores de sintaxis se muestran en modo parser.
-
-En modo evaluador:
-
-```text
-Opción: 3
-evaluator>> let doble = function(x) { x * 2 };
-null
-evaluator>> doble(7)
-14
-evaluator>> let a = [1, 2]; a[0] = 9; a[0]
-9
-```
-
-`null` indica que una declaración no produce un resultado. Los índices de lectura inexistentes también devuelven `null`; escribir fuera de un arreglo produce un error.
-
-### Ejemplos para copiar y pegar en el REPL
-
-Ejecuta `go run .`, elige `3` y pega **una línea por vez**. El REPL conserva las variables de las líneas anteriores:
-
-```text
-let base = 10;
-base + 5
-let doble = function(x) { return x * 2; };
-doble(base)
-let valores = [3, 6, 9];
-valores[1]
-valores[1] = 8;
-valores[1]
-if (base > 5) { "mayor" } else { "menor" }
-let total = 0; for (let i = 0; i < 3; i = i + 1) { total = total + valores[i]; } total
-```
-
-En orden, las expresiones muestran `15`, `20`, `6`, `8`, `8`, `mayor` y `20`. Las líneas que solo declaran variables muestran `null`. Para empezar de cero, cierra el REPL y ejecútalo de nuevo.
-
-### Ejecutar un archivo `.ssg`
-
-El único archivo de ejemplos, [ejemplos/programa.ssg](ejemplos/programa.ssg), reúne el programa básico y las funciones recursivas de Ackermann, Fibonacci y Torres de Hanói. Desde la raíz del proyecto puedes ejecutarlo directamente:
+### Ejecutar un archivo
 
 ```bash
-go run . ejemplos/programa.ssg
+node src/index.js examples/01-variables.otaku
 ```
 
-La salida es un hash con los cuatro resultados: `resultado: 24`, `ackermann: 7`, `fibonacci: 21` y `hanoi` con siete movimientos. También puedes cargarlo durante una sesión del REPL, desde cualquier modo:
+Si el programa tiene un error, se imprime un único mensaje con el tipo de error, la descripción, la línea y la columna, y el proceso termina con código 1.
 
-```text
-:cargar ejemplos/programa.ssg
-```
-
-Después de cargarlo, cambia a `:evaluator` si hace falta y prueba `resultado`, `ackermann(2, 2)`, `fibonacci(8)` o `hanoi(3, "A", "C", "B")`. Todas las funciones quedan disponibles en la sesión. La ruta se interpreta desde el directorio donde ejecutaste `go run .`. Los archivos `.ssg` admiten bloques y funciones repartidos en varias líneas; el REPL interactivo procesa cada línea por separado. El lenguaje todavía no admite comentarios dentro de `.ssg`.
-
-### Funciones recursivas
-
-Estas funciones se llaman a sí mismas. Ya están juntas en `ejemplos/programa.ssg`. Si prefieres escribirlas directamente en el REPL, elige el modo `3` y pega **cada definición completa en una sola línea**; luego pega su llamada.
-
-**Ackermann** (a veces escrita «Ackerman»; `ackermann(2, 2)` produce `7`):
-
-```text
-let ackermann = function(m, n) { if (m == 0) { return n + 1; } if (n == 0) { return ackermann(m - 1, 1); } return ackermann(m - 1, ackermann(m, n - 1)); };
-ackermann(2, 2)
-```
-
-**Fibonacci** (`fibonacci(8)` produce `21`):
-
-```text
-let fibonacci = function(n) { if (n <= 1) { return n; } return fibonacci(n - 1) + fibonacci(n - 2); };
-fibonacci(8)
-```
-
-**Torres de Hanói** (`hanoi(3, "A", "C", "B")` devuelve los siete movimientos necesarios para llevar los discos de A a C, usando B como auxiliar):
-
-```text
-let hanoi = function(n, origen, destino, auxiliar) { if (n == 0) { return []; } return hanoi(n - 1, origen, auxiliar, destino) + [[origen, destino]] + hanoi(n - 1, auxiliar, destino, origen); };
-hanoi(3, "A", "C", "B")
-```
-
-Cada par del resultado es `[origen, destino]`; el primero es `[A, C]` y el último también. Aquí `+` une dos arreglos y crea uno nuevo, por lo que se pueden combinar los movimientos de cada llamada recursiva.
-
-Usa entradas pequeñas con Ackermann: el número de llamadas crece muy rápido.
-
-### Comandos del REPL
-
-| Comando | Acción |
-| --- | --- |
-| `:lexer` | Cambia al modo de tokens. |
-| `:parser` | Cambia al modo de AST. |
-| `:evaluator` | Cambia al modo de ejecución. |
-| `:cargar ruta.ssg` | Lee y ejecuta un archivo en el entorno actual. |
-| `:ayuda` | Muestra los comandos disponibles. |
-| `:salir` | Cierra el REPL. |
-
-También puedes salir con Ctrl+D.
-
-## Sintaxis reconocida
-
-- Declaraciones `let`, `return` y expresiones.
-- Enteros, cadenas entre comillas dobles, booleanos, identificadores, arreglos y hashes.
-- Operadores aritméticos (`+`, `-`, `*`, `/`, `%`, `**`), de comparación (`==`, `!=`, `<`, `>`, `<=`, `>=`), asignación (`=`) y prefijos (`-`, `!`). `+` también concatena cadenas o arreglos del mismo tipo.
-- Condicionales `if`, `elif` y `else`; ciclos `while` y `for`.
-- Funciones con `function`, llamadas e indexación con `[]`.
-
-El evaluador soporta expresiones, variables, asignación, condicionales, ciclos, funciones con cierres, arreglos y hashes. Solo `false` y `null` se consideran falsos. Los hashes admiten claves enteras, booleanas o de texto. El lexer reconoce identificadores con letras ASCII y guion bajo; los dígitos se usan para números enteros.
-
-## Estructura
-
-| Ruta | Función |
-| --- | --- |
-| `main.go` | Inicia la aplicación y el REPL. |
-| `token/` | Define los tipos de token y las palabras reservadas. |
-| `lexer/` | Convierte texto fuente en tokens. |
-| `parser/` | Construye el AST mediante un parser de Pratt. |
-| `ast/` | Define los nodos del árbol sintáctico. |
-| `objects/objects.go` | Define los valores durante la ejecución y los entornos de variables. |
-| `evaluator/evaluator.go` | Recorre el AST y calcula sus resultados. |
-| `repl/` | Gestiona la entrada interactiva y muestra tokens, AST o resultados. |
-| `ejemplos/programa.ssg` | Todos los ejemplos en un único programa ejecutable. |
-
-## Desarrollo
-
-Para compilar y revisar los paquetes:
+### Modo REPL (interactivo)
 
 ```bash
-go build ./...
-go test ./...
+node src/index.js
 ```
 
-`go test ./...` comprueba las operaciones, el control de flujo, las funciones, las colecciones y los errores del evaluador.
+Entra al REPL de OtakuLang: escribe una línea, se ejecuta al instante y las variables y funciones quedan guardadas entre líneas. Escribe `salir` para terminar.
+
+```
+otaku> ninja nombre = "Goku";
+otaku> gritar("Hola,", nombre);
+Hola, Goku
+otaku> 2 + 2
+4
+otaku> salir
+```
+
+### Ejecutar las pruebas
+
+```bash
+npm test
+```
+
+Corre las 5 suites de pruebas unitarias (lexer, parser, evaluador, ámbitos, funciones) y las pruebas de integración (`tests/validos/` y `tests/errores/`), y muestra un resumen final. Si algo falla, el comando termina con código 1.
+
+### Editor web
+
+```bash
+npm run editor
+```
+
+Levanta un pequeño servidor local (Node puro, sin dependencias) y abre [`http://localhost:3000`](http://localhost:3000) en el navegador. Ahí hay un editor de OtakuLang con fondo de anime donde puedes escribir código, ejecutarlo con el botón **Kamehameha** (o `Ctrl+Enter`), ver la salida en el panel derecho y cargar cualquiera de los ejemplos del proyecto desde el selector. Los errores se muestran en rojo con su línea y columna.
+
+## El lenguaje
+
+### Palabras clave
+
+| Palabra | Significado | Equivalente |
+|---|---|---|
+| `ninja` | declarar variable | `let` / `var` |
+| `jutsu` | declarar función | `function` |
+| `kaeri` | retornar valor | `return` |
+| `nani` | condicional | `if` |
+| `baka` | si no | `else` |
+| `kamehameha` | ciclo mientras | `while` |
+| `entrenar` | ciclo para | `for` |
+| `hai` | verdadero | `true` |
+| `iie` | falso | `false` |
+| `nada` | valor nulo | `null` |
+
+### Tipos de datos
+
+- **Números**: enteros y decimales (`42`, `2.5`).
+- **Cadenas**: entre comillas dobles (`"Dattebayo"`). Se pueden indexar (`cadena[0]`).
+- **Booleanos**: `hai` e `iie`.
+- **Nulo**: `nada`.
+- **Listas**: `[1, 2, 3]`, con índices desde 0. Se pasan por referencia.
+
+### Reglas principales
+
+- Las sentencias terminan en `;`.
+- Los comentarios empiezan con `#` y van hasta el final de la línea.
+- `ninja` declara una variable **en el ámbito actual**; redeclarar en el mismo ámbito es un error. Sin `ninja`, la asignación busca la variable en los ámbitos exteriores.
+- Una variable local con el mismo nombre **no afecta** a la global (la sombrea solo dentro de su ámbito).
+- `+` concatena si algún operando es cadena; `==` y `!=` no convierten tipos (`5 == "5"` es `iie`).
+- `&&` y `||` usan cortocircuito.
+- Regla de verdad: solo `iie`, `nada`, `0` y `""` son falsos; todo lo demás es verdadero.
+- Las funciones recuerdan el ámbito donde fueron creadas (closures) y pueden ser recursivas.
+
+### Precedencia (de menor a mayor)
+
+```
+||  →  &&  →  == !=  →  < > <= >=  →  + -  →  * / %  →  ! - (unarios)  →  llamadas e índices
+```
+
+Los operadores binarios asocian a la izquierda: `10 - 4 - 3` es `(10 - 4) - 3 = 3`.
+
+### Funciones integradas
+
+| Función | Descripción |
+|---|---|
+| `gritar(...)` | Imprime sus argumentos separados por espacio. |
+| `poder(x)` | Longitud de una cadena o lista. |
+| `aNumero(x)` | Convierte a número (cadenas y booleanos). |
+| `aTexto(x)` | Convierte cualquier valor a texto. |
+| `agregar(lista, valor)` | Añade un valor al final de una lista. |
+
+### Errores
+
+Tres tipos, siempre con línea y columna:
+
+```
+[Error LÉXICO]     Carácter no válido: '@' (línea 3, columna 10)
+[Error SINTÁCTICO] Se esperaba ';' después de la declaración (línea 3, columna 1)
+[Error EJECUCIÓN]  Variable no definida: 'zzz' (línea 2, columna 8)
+```
+
+## Estructura del proyecto
+
+```
+src/
+  keywords.js     Palabras clave del lenguaje
+  lexer.js        Tokenizador (texto → tokens)
+  parser.js       Parser descendente recursivo (tokens → AST)
+  ast.js          Nodos del AST y función para imprimirlo
+  evaluator.js    Evaluador del AST (intérprete)
+  environment.js  Ámbitos con cadena de entornos padre-hijo
+  errors.js       Los tres tipos de error con línea y columna
+  index.js        Punto de entrada: modo archivo y modo REPL
+editor.html       Editor web (usa el mismo intérprete en el navegador)
+servidor.js       Servidor local mínimo para el editor web
+images.jpg        Fondo de anime del editor
+examples/         Un programa .otaku por característica del lenguaje
+tests/
+  unitarias/      Pruebas por módulo (lexer, parser, evaluador, ámbitos, funciones)
+  validos/        Programas válidos con su salida esperada (.esperado)
+  errores/        Programas con error y su mensaje esperado (.esperado)
+  ejecutar-tests.js  Ejecuta validos/ y errores/ comparando con .esperado
+  ejecutar.js        Orquestador: corre todas las suites con `npm test`
+```
+
+## Ejemplos
+
+Cada archivo de [`examples/`](examples) demuestra una característica. Se corren con `node src/index.js examples/NN-*.otaku`:
+
+| Archivo | Demuestra |
+|---|---|
+| `01-variables.otaku` | Declarar con `ninja`, asignar, `hai`/`iie`/`nada` |
+| `02-expresiones.otaku` | Precedencia, asociatividad, concatenación, comparaciones |
+| `03-condicionales.otaku` | `nani`/`baka`, encadenado `baka nani`, regla de verdad |
+| `04-ciclos.otaku` | `kamehameha` (while) y `entrenar` (for) |
+| `05-funciones.otaku` | `jutsu` con parámetros, `kaeri`, funciones sin retorno |
+| `06-recursion.otaku` | Factorial, Fibonacci y suma recursiva |
+| `07-ambitos.otaku` | Local vs global, sombreado, ámbitos de bloque |
+| `08-listas.otaku` | Índices, asignación por posición, paso por referencia |
+| `09-integradas.otaku` | `gritar`, `poder`, `aNumero`, `aTexto`, `agregar` |
+| `10-closures.otaku` | Funciones que recuerdan su ámbito |
+| `11-completo.otaku` | El Torneo del Poder: combina todas las características |
+
+## Pruebas
+
+- **Unitarias** ([`tests/unitarias/`](tests/unitarias)): 73 pruebas que verifican el lexer, el parser, el evaluador, los ámbitos y las funciones directamente, módulo por módulo.
+- **De integración** ([`tests/validos/`](tests/validos) y [`tests/errores/`](tests/errores)): 22 programas `.otaku`, cada uno con su archivo `.esperado`. Los válidos deben correr sin error y producir exactamente la salida esperada; los de error deben fallar con exactamente el mensaje esperado (línea y columna incluidas).
+
+Todo corre con un solo comando:
+
+```bash
+npm test
+```

@@ -1,0 +1,5 @@
+# Error de ejecución: número incorrecto de argumentos.
+jutsu ataque(energia, tiempo) {
+  kaeri energia * tiempo;
+}
+gritar(ataque(100));

@@ -1,0 +1,2 @@
+# Error sintáctico: paréntesis sin cerrar.
+gritar((1 + 2);

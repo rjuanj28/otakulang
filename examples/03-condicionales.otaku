@@ -1,0 +1,26 @@
+# 03-condicionales.otaku — Demuestra nani/baka y el encadenado baka nani.
+# La condición usa la regla de verdad: solo iie, nada, 0 y "" son falsos.
+
+ninja poder = 9001;
+
+nani (poder > 9000) {
+  gritar("¡Está más de nueve mil!");
+} baka {
+  gritar("Necesita entrenar más");
+}
+
+# Encadenado: baka seguido de otro nani.
+ninja rango = 7;
+nani (rango >= 8) {
+  gritar("Hokage");
+} baka nani (rango >= 5) {
+  gritar("Jonin");
+} baka nani (rango >= 3) {
+  gritar("Chunin");
+} baka {
+  gritar("Genin");
+}
+
+# Condición con valor no booleano: 0 y "" son falsos.
+nani (0) { gritar("cero es verdadero"); } baka { gritar("cero es falso"); }
+nani ("") { gritar("vacio es verdadero"); } baka { gritar("vacio es falso"); }

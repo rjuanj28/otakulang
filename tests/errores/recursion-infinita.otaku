@@ -1,0 +1,5 @@
+# Error de ejecución: recursión infinita (desborda la pila).
+jutsu inf(n) {
+  kaeri inf(n + 1);
+}
+inf(0);

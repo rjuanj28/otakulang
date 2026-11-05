@@ -1,0 +1,31 @@
+# Prueba válida: listas con índices y funciones integradas.
+ninja esferas = [1, 2, 3, 4, 5, 6, 7];
+
+# Lectura por índice
+gritar(esferas[0]);            # 1
+gritar(esferas[6]);            # 7
+
+# Asignación por índice
+esferas[0] = 9000;
+gritar(esferas[0]);            # 9000
+
+# Índices con expresiones
+ninja i = 2;
+gritar(esferas[i + 1]);        # 4
+
+# Listas anidadas
+ninja equipos = [["Goku", "Vegeta"], ["Naruto", "Sasuke"]];
+gritar(equipos[1][0]);         # Naruto
+
+# poder: longitud
+gritar(poder(esferas));        # 7
+
+# agregar: añade al final
+agregar(esferas, 8);
+gritar(poder(esferas));        # 8
+gritar(esferas[7]);            # 8
+
+# Indexar una cadena
+ninja nombre = "Goku";
+gritar(nombre[0]);             # G
+gritar(poder(nombre));         # 4

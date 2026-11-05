@@ -1,0 +1,33 @@
+# 07-ambitos.otaku — Demuestra ámbitos: local vs global y sombreado.
+# Una variable local con el mismo nombre NO afecta a la global.
+
+ninja aldea = "Konoha";   # global
+
+jutsu mostrarAldea() {
+  # Lee la global: no hay ninguna local que se llame igual.
+  kaeri aldea;
+}
+
+jutsu cambiarLocal() {
+  ninja aldea = "Suna";   # local: sombrea a la global SOLO aquí dentro
+  kaeri aldea;
+}
+
+jutsu cambiarGlobal() {
+  aldea = "Suna";          # sin ninja: asigna a la global de afuera
+  kaeri aldea;
+}
+
+gritar(mostrarAldea());    # Konoha
+gritar(cambiarLocal());    # Suna (la local)
+gritar(mostrarAldea());    # Konoha: la global no cambió
+gritar(cambiarGlobal());   # Suna
+gritar(mostrarAldea());    # Suna: ahora sí cambió la global
+
+# Los bloques también crean su propio ámbito.
+ninja nivel = 1;
+nani (hai) {
+  ninja nivel = 99;   # local del bloque
+  gritar("dentro:", nivel);
+}
+gritar("fuera:", nivel);

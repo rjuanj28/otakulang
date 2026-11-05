@@ -1,0 +1,23 @@
+# 09-integradas.otaku — Demuestra las funciones integradas del lenguaje.
+# gritar, poder, aNumero, aTexto y agregar.
+
+# gritar: imprime sus argumentos separados por espacio.
+gritar("Kamehameha!", 9000 + 1);
+
+# poder: longitud de una cadena o una lista.
+gritar("Letras de 'Dattebayo':", poder("Dattebayo"));
+ninja esferas = [1, 2, 3, 4, 5, 6, 7];
+gritar("Esferas del dragón:", poder(esferas));
+
+# aNumero: convierte cadenas y booleanos a número.
+ninja texto = "42";
+gritar(aNumero(texto) + 1);      # 43
+gritar(aNumero(hai));            # 1
+
+# aTexto: convierte cualquier valor a texto (útil para concatenar).
+ninja lista = [1, 2];
+gritar("La lista es: " + aTexto(lista));
+
+# agregar: añade un elemento al final de una lista.
+agregar(esferas, 8);             # ¡una esfera extra!
+gritar(esferas, "longitud:", poder(esferas));

@@ -1,0 +1,19 @@
+# Prueba válida: closures (funciones que recuerdan su entorno).
+jutsu crearContador() {
+  ninja cuenta = 0;
+  jutsu incrementar() {
+    cuenta = cuenta + 1;
+    kaeri cuenta;
+  }
+  kaeri incrementar;
+}
+
+# Dos contadores independientes: cada uno recuerda su propia "cuenta"
+ninja contadorA = crearContador();
+ninja contadorB = crearContador();
+
+gritar(contadorA());   # 1
+gritar(contadorA());   # 2
+gritar(contadorB());   # 1
+gritar(contadorA());   # 3
+gritar(contadorB());   # 2

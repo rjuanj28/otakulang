@@ -1,0 +1,3 @@
+# Error de ejecución: kaeri fuera de una función.
+ninja x = 5;
+kaeri x;

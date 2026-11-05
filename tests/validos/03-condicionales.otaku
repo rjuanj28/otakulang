@@ -1,0 +1,31 @@
+# Prueba válida: condicionales nani/baka, anidados y regla de verdad.
+ninja ki = 8000;
+
+nani (ki > 9000) {
+  gritar("¡Más de 9000!");
+} baka {
+  gritar("Aún entrenando...");
+}
+
+# baka nani encadenado
+nani (ki > 9000) {
+  gritar("Saiyajin");
+} baka nani (ki > 5000) {
+  gritar("Guerrero Z");
+} baka {
+  gritar("Novato");
+}
+
+# Regla de verdad: 0 y "" son falsos, el resto verdadero
+nani (0) { gritar("cero es verdad"); } baka { gritar("cero es falso"); }
+nani ("") { gritar("vacio es verdad"); } baka { gritar("vacio es falso"); }
+nani ("Naruto") { gritar("cadena no vacia es verdad"); } baka { gritar("no"); }
+
+# Condicional dentro de condicional
+nani (hai) {
+  nani (iie) {
+    gritar("no llega");
+  } baka {
+    gritar("anidado funciona");
+  }
+}

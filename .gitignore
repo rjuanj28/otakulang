@@ -1,12 +1,5 @@
-# Ejecutables y resultados de compilación de Go
-/compi8am
-/compi8am.exe
-/bin/
-/dist/
-*.exe
-*.test
-*.out
-coverage.out
+# Dependencias (aunque este proyecto no usa, por si acaso)
+node_modules/
 
 # Archivos locales del editor y del sistema
 .DS_Store

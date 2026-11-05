@@ -1,0 +1,28 @@
+# 08-listas.otaku — Demuestra listas: literales, índices, asignación y por referencia.
+
+ninja equipo = ["Naruto", "Sasuke", "Sakura"];
+ninja poderes = [100, 250, 90];
+
+# Leer por índice (empieza en 0).
+gritar(equipo[0]);          # Naruto
+gritar(poderes[1]);         # 250
+
+# Asignar a una posición.
+poderes[2] = 95;
+gritar(poderes);             # [100, 250, 95]
+
+# Recorrer una lista con entrenar y poder.
+entrenar (ninja i = 0; i < poder(equipo); i = i + 1) {
+  gritar(equipo[i], "tiene", poderes[i], "de poder");
+}
+
+# Las listas se pasan por referencia: la función modifica la original.
+jutsu reclutar(lista, nombre) {
+  agregar(lista, nombre);
+}
+reclutar(equipo, "Kakashi");
+gritar(equipo);              # ahora tiene 4 integrantes
+
+# Indexar una cadena también funciona (solo lectura).
+ninja grito = "Dattebayo";
+gritar(grito[0]);            # D

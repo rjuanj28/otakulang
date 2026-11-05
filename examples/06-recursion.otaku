@@ -1,0 +1,29 @@
+# 06-recursion.otaku — Demuestra funciones que se llaman a sí mismas.
+
+# Factorial: n! = n * (n-1)!
+jutsu factorial(n) {
+  nani (n <= 1) {
+    kaeri 1;
+  }
+  kaeri n * factorial(n - 1);
+}
+
+# Fibonacci: fib(n) = fib(n-1) + fib(n-2)
+jutsu fib(n) {
+  nani (n < 2) {
+    kaeri n;
+  }
+  kaeri fib(n - 1) + fib(n - 2);
+}
+
+# Suma recursiva de 1 hasta n.
+jutsu sumaHasta(n) {
+  nani (n == 0) {
+    kaeri 0;
+  }
+  kaeri n + sumaHasta(n - 1);
+}
+
+gritar("5! =", factorial(5));       # 120
+gritar("fib(10) =", fib(10));       # 55
+gritar("suma hasta 100 =", sumaHasta(100));  # 5050

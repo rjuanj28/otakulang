@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OtakuLang — Editor</title>
+  <style>
+    /* Fondo con la imagen de anime, oscurecida para que el texto se lea bien. */
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "MS Gothic", sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(rgba(10, 10, 30, 0.82), rgba(10, 10, 30, 0.9)),
+        url("images.jpg") center / cover no-repeat fixed;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 18px 0 4px;
+      font-size: 28px;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px #ff5722, 0 2px 4px #000;
+    }
+
+    .subtitulo {
+      margin: 0 0 16px;
+      color: #ffb74d;
+      font-size: 14px;
+      text-shadow: 0 1px 3px #000;
+    }
+
+    /* Contenedor principal: editor a la izquierda, salida a la derecha. */
+    .panel {
+      display: flex;
+      gap: 14px;
+      width: 94%;
+      max-width: 1200px;
+      flex: 1;
+      margin-bottom: 18px;
+    }
+
+    .columna {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: rgba(15, 15, 35, 0.88);
+      border: 1px solid #ff5722;
+      border-radius: 10px;
+      box-shadow: 0 0 18px rgba(255, 87, 34, 0.35);
+      overflow: hidden;
+    }
+
+    .titulo-columna {
+      padding: 8px 12px;
+      background: rgba(255, 87, 34, 0.25);
+      font-weight: bold;
+      font-size: 14px;
+      color: #ffcc80;
+      border-bottom: 1px solid rgba(255, 87, 34, 0.4);
+    }
+
+    /* Área de código. */
+    #codigo {
+      flex: 1;
+      min-height: 380px;
+      padding: 12px;
+      border: none;
+      resize: none;
+      background: rgba(0, 0, 0, 0.55);
+      color: #a5ffea;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.5;
+      outline: none;
+      tab-size: 2;
+    }
+
+    /* Panel de salida. */
+    #salida {
+      flex: 1;
+      min-height: 380px;
+      padding: 12px;
+      overflow-y: auto;
+      background: rgba(0, 0, 0, 0.55);
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 15px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    /* Los errores se pintan en rojo dentro del panel de salida. */
+    #salida .error {
+      color: #ff5252;
+      font-weight: bold;
+    }
+
+    /* Barra de botones. */
+    .barra {
+      display: flex;
+      gap: 10px;
+      padding: 10px;
+      border-top: 1px solid rgba(255, 87, 34, 0.4);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    button {
+      padding: 8px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      color: #fff;
+      background: linear-gradient(#ff7043, #e53935);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    }
+
+    button:hover { filter: brightness(1.15); }
+    button:active { transform: translateY(1px); }
+
+    button.secundario {
+      background: linear-gradient(#546e7a, #37474f);
+    }
+
+    /* Selector de ejemplos. */
+    select {
+      padding: 8px;
+      font-size: 14px;
+      background: #263238;
+      color: #fff;
+      border: 1px solid #ff5722;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🍥 OtakuLang</h1>
+  <p class="subtitulo">Escribe tu jutsu, presiona Kamehameha y mira la magia ✨</p>
+
+  <div class="panel">
+    <!-- Columna izquierda: editor -->
+    <div class="columna">
+      <div class="titulo-columna">📝 Código</div>
+      <textarea id="codigo" spellcheck="false">ninja poder = 9001;
+gritar("¡Mi poder es", poder, "!");</textarea>
+      <div class="barra">
+        <button id="ejecutar">⚡ Kamehameha (Ejecutar)</button>
+        <button id="limpiar" class="secundario">🧹 Limpiar salida</button>
+        <select id="ejemplos">
+          <option value="">Cargar ejemplo…</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Columna derecha: salida -->
+    <div class="columna">
+      <div class="titulo-columna">📺 Salida</div>
+      <div id="salida"></div>
+    </div>
+  </div>
+
+  <!-- El intérprete completo corre en el navegador: son los mismos archivos de src/. -->
+  <script type="module">
+    import { parsear } from './src/parser.js';
+    import { evaluarPrograma, crearEntornoGlobal, aTextoValor, salida } from './src/evaluator.js';
+    import { ErrorOtaku } from './src/errors.js';
+
+    const areaCodigo = document.getElementById('codigo');
+    const panelSalida = document.getElementById('salida');
+    const selectorEjemplos = document.getElementById('ejemplos');
+
+    // gritar imprime al panel de salida en vez de a la consola del navegador.
+    salida.imprimir = (texto) => agregarLinea(texto);
+
+    // Agrega una línea al panel de salida. Si esError, se pinta en rojo.
+    function agregarLinea(texto, esError = false) {
+      const linea = document.createElement('div');
+      if (esError) linea.className = 'error';
+      linea.textContent = texto;
+      panelSalida.appendChild(linea);
+      panelSalida.scrollTop = panelSalida.scrollHeight; // baja al final
+    }
+
+    // Ejecuta el código del editor. Cada ejecución empieza con un entorno
+    // nuevo (como correr un archivo desde cero).
+    function ejecutar() {
+      panelSalida.innerHTML = '';
+      try {
+        const ast = parsear(areaCodigo.value);
+        evaluarPrograma(ast, crearEntornoGlobal());
+        agregarLinea('— Programa terminado —');
+      } catch (e) {
+        // Los errores del lenguaje tienen formato propio con línea y columna.
+        if (e instanceof ErrorOtaku) {
+          agregarLinea(e.toString(), true);
+        } else {
+          agregarLinea(`[Error INTERNO] ${e.message}`, true);
+        }
+      }
+    }
+
+    document.getElementById('ejecutar').addEventListener('click', ejecutar);
+    document.getElementById('limpiar').addEventListener('click', () => {
+      panelSalida.innerHTML = '';
+    });
+
+    // Ctrl+Enter también ejecuta, para no tener que usar el mouse.
+    areaCodigo.addEventListener('keydown', (e) => {
+      if (e.ctrlKey && e.key === 'Enter') ejecutar();
+    });
+
+    // Carga la lista de ejemplos en el selector (los mismos de examples/).
+    fetch('./examples/lista.json')
+      .then((r) => r.json())
+      .then((ejemplos) => {
+        for (const ej of ejemplos) {
+          const opcion = document.createElement('option');
+          opcion.value = ej.archivo;
+          opcion.textContent = ej.nombre;
+          selectorEjemplos.appendChild(opcion);
+        }
+      })
+      .catch(() => {}); // si no hay lista, el selector queda vacío
+
+    selectorEjemplos.addEventListener('change', async () => {
+      if (!selectorEjemplos.value) return;
+      try {
+        const r = await fetch(`./examples/${selectorEjemplos.value}`);
+        areaCodigo.value = await r.text();
+      } catch {
+        agregarLinea('[Error ARCHIVO] No se pudo cargar el ejemplo', true);
+      }
+    });
+  </script>
+</body>
+</html>

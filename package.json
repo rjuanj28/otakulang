@@ -1,0 +1,14 @@
+{
+  "name": "otakulang",
+  "version": "1.0.0",
+  "description": "Intérprete de OtakuLang: lenguaje de programación con temática anime/otaku",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node tests/ejecutar.js",
+    "editor": "node servidor.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

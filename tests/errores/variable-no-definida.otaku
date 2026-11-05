@@ -1,0 +1,2 @@
+# Error de ejecución: variable no definida.
+gritar(zzz);

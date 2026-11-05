@@ -1,0 +1,10 @@
+# Prueba válida: declaración de variables, asignación y tipos.
+ninja ki = 9000;
+ninja nombre = "Goku";
+ninja transformado = hai;
+ninja rival = nada;
+
+gritar(ki, nombre, transformado, rival);
+
+ki = ki + 1;
+gritar("Ki actualizado:", ki);
